@@ -24,7 +24,7 @@ void test_insert_single(const key_t key) {
   assert(p != NULL);
   assert(t->root == p);
   assert(p->key == key);
-  // assert(p->color == RBTREE_BLACK);  // color of root node should be black
+  assert(p->color == RBTREE_BLACK);  // color of root node should be black
 #ifdef SENTINEL
   assert(p->left == t->nil);
   assert(p->right == t->nil);
@@ -60,7 +60,6 @@ void test_erase_root(const key_t key) {
   assert(p != NULL);
   assert(t->root == p);
   assert(p->key == key);
-
   rbtree_erase(t, p);
 #ifdef SENTINEL
   assert(t->root == t->nil);
@@ -315,10 +314,8 @@ void test_find_erase(rbtree *t, const key_t *arr, const size_t n) {
     node_t *p = rbtree_insert(t, arr[i]);
     assert(p != NULL);
   }
-
   for (int i = 0; i < n; i++) {
     node_t *p = rbtree_find(t, arr[i]);
-    // printf("arr[%d] = %d\n", i, arr[i]);
     assert(p != NULL);
     assert(p->key == arr[i]);
     rbtree_erase(t, p);
@@ -328,7 +325,6 @@ void test_find_erase(rbtree *t, const key_t *arr, const size_t n) {
     node_t *p = rbtree_find(t, arr[i]);
     assert(p == NULL);
   }
-
   for (int i = 0; i < n; i++) {
     node_t *p = rbtree_insert(t, arr[i]);
     assert(p != NULL);
@@ -344,7 +340,7 @@ void test_find_erase(rbtree *t, const key_t *arr, const size_t n) {
 
 void test_find_erase_fixed() {
   const key_t arr[] = {10, 5, 8, 34, 67, 23, 156, 24, 2, 12, 24, 36, 990, 25};
-  const size_t n = sizeof(arr) / sizeof(arr[0]);
+  const size_t n = sizeof(arr) / sizeof(arr[0]); //14
   rbtree *t = new_rbtree();
   assert(t != NULL);
 
@@ -379,5 +375,4 @@ int main(void) {
   test_duplicate_values();
   test_multi_instance();
   test_find_erase_rand(10000, 17);
-  printf("Passed all tests!\n");
 }
